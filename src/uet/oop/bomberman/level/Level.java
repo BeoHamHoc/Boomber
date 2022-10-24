@@ -7,7 +7,7 @@ import uet.oop.bomberman.entities.Tile.Item.*;
 import uet.oop.bomberman.entities.Tile.Brick;
 import uet.oop.bomberman.entities.Tile.Grass;
 import uet.oop.bomberman.entities.Tile.Wall;
-import uet.oop.bomberman.entities.character.enemy.Balloom;
+import uet.oop.bomberman.entities.character.enemy.Balloon;
 import uet.oop.bomberman.entities.character.enemy.Doll;
 import uet.oop.bomberman.entities.character.enemy.Kondoria;
 import uet.oop.bomberman.entities.character.enemy.Oneal;
@@ -71,8 +71,8 @@ public class Level {
                         break;
                     case '1':
                         Board.map[i][j] = ' ';
-                        Balloom balloom = new Balloom(j, i, Sprite.balloom_right1.getFxImage(), Board.speedOfEnemy);
-                        boardGame.addEnemy(balloom);
+                        Balloon balloon = new Balloon(j, i, Sprite.balloom_right1.getFxImage(), Board.speedOfEnemy);
+                        boardGame.addEnemy(balloon);
                         break;
                     case '2':
                         Board.map[i][j] = ' ';

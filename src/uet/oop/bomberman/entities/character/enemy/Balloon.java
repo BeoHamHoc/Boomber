@@ -5,8 +5,8 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Balloom extends Enemy {
-    public Balloom(int x, int y, Image img, double speed) {
+public class Balloon extends Enemy {
+    public Balloon(int x, int y, Image img, double speed) {
         super(x, y, img, speed);
         setFrameRight();
         setFrameLeft();

@@ -208,4 +208,9 @@ public class Board {
     public boolean getIsDie() {
         return getPlayer().isDie();
     }
+
+    public char[][] reviveMap() {
+        if (map != null) update();
+        return map;
+    }
 }

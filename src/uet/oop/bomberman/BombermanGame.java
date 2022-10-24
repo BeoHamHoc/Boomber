@@ -9,24 +9,20 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import uet.oop.bomberman.Input.KeyBoard;
 import uet.oop.bomberman.graphics.Sprite;
 //import uet.oop.bomberman.sound.Sound;
 
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class BombermanGame extends Application {
     public static GraphicsContext gc;
@@ -240,4 +236,5 @@ public class BombermanGame extends Application {
         textScore.setText(String.valueOf(Board.score + Board.scorePrevious));
         textTime.setText(String.valueOf(board.countDown() / 60));
     }
+
 }
