@@ -25,7 +25,7 @@ public class
 
 
 
-Bomber extends movingObj {
+Bomber extends MovingObj {
 
     Image[] imgFrameRight;
     Image[] imgFrameLeft;

@@ -3,7 +3,7 @@ package uet.oop.bomberman.entities.character;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
 
-public abstract class movingObj extends Entity {
+public abstract class MovingObj extends Entity {
 
     protected double speed;
     protected int left = 0;
@@ -13,7 +13,7 @@ public abstract class movingObj extends Entity {
     protected final int animate = 5;
     protected boolean alive = true;
 
-    public movingObj(int x, int y, Image img, double speed) {
+    public MovingObj(int x, int y, Image img, double speed) {
         super(x, y, img);
         this.speed = speed;
     }

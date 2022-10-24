@@ -74,10 +74,10 @@ public class BombermanGame extends Application {
                     AnimationTimer timer = new AnimationTimer() {
                         @Override
                         public void handle(long l) {
-                          update();
-                          board.render();
+                            update();
+                            board.render();
                             board.update();
-                            if (Board.getPlayer().isDie()  || Board.countDownTime < 0) {
+                            if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
                                 String res = "Game Over !!!";
 //                                endGame(res);
                                 finalStage.setScene(gameScene);
@@ -86,7 +86,7 @@ public class BombermanGame extends Application {
                                 Board.scorePrevious = 0;
                                 BombermanGame.board.setLevel(1);
                                 Board.getPlayer().setHealth(3);
-                               Board.getPlayer().updateStatus();
+                                Board.getPlayer().updateStatus();
                                 String res = "YOU WIN !!!";
 //                                endGame(res);
                                 finalStage.setScene(gameScene);
@@ -99,10 +99,10 @@ public class BombermanGame extends Application {
                     keyBoard.status(gameScene); // bat su kien
 //                    Sound.play("ghost");
                     //board.countDown();
-                }}
+                }
+            }
 
         });
-
 
 
         continueButton.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -125,7 +125,7 @@ public class BombermanGame extends Application {
                             update();
                             board.render();
                             board.update();
-                            if (Board.getPlayer().isDie()  || Board.countDownTime < 0) {
+                            if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
                                 String res = "Game Over !!!";
                                 endGame(res);
                                 finalStage.setScene(gameScene);
@@ -134,7 +134,7 @@ public class BombermanGame extends Application {
                                 Board.scorePrevious = 0;
                                 BombermanGame.board.setLevel(1);
                                 Board.getPlayer().setHealth(3);
-                               Board.getPlayer().updateStatus();
+                                Board.getPlayer().updateStatus();
                                 String res = "YOU WIN !!!";
                                 endGame(res);
                                 finalStage.setScene(gameScene);
@@ -154,7 +154,7 @@ public class BombermanGame extends Application {
 
     }
 
-    public void initContinueGame() throws FileNotFoundException{
+    public void initContinueGame() throws FileNotFoundException {
         board = new Board();
         keyBoard = new KeyBoard();
         board.getGameLevel().createMapLevel(board.getLevel());
@@ -240,4 +240,4 @@ public class BombermanGame extends Application {
         textScore.setText(String.valueOf(Board.score + Board.scorePrevious));
         textTime.setText(String.valueOf(board.countDown() / 60));
     }
-
+}
