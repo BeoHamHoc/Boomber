@@ -2,8 +2,8 @@ package uet.oop.bomberman.Entities.Bomb;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Entities.Bomb.DirectionExplosion;
+import uet.oop.bomberman.Board;
+
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Graphics.Sprite;
 //import uet.oop.bomberman.Sound.Sound;
@@ -16,7 +16,7 @@ public class Bomb extends Entity {
     protected double timeToExplode = 120;
     protected int timeAfter = 30;
     protected boolean exploded = false;
-    protected DirectionExplosion[] explosions = new DirectionExplosion[4];;
+    protected DirectionExplosion[] explosions = new DirectionExplosion[4];
     private int animate = 0;
 
 
@@ -42,12 +42,12 @@ public class Bomb extends Entity {
                     updateExplosions();
                 } else {
                     remove = true;
-                    Sound.play("BOM_11_M");
+                    //Sound.play("BOM_11_M");
                 }
             }
         }
         if (remove && timeAfter == 0) {
-            BombermanGame.board.getPlayer().removeBombAt(this.x, this.y);
+            Board.getPlayer().removeBombAt(this.x, this.y);
         }
     }
 

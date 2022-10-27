@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import uet.oop.bomberman.Graphics.Sprite;
 import java.util.HashSet;
-public abstract class   Entity {
+public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected double x;
 
@@ -16,10 +16,13 @@ public abstract class   Entity {
     protected boolean remove = false;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public Entity(int xUnit, int yUnit, Image img) {
+    public Entity(double xUnit, double yUnit, Image img) {
         this.x = xUnit;
         this.y = yUnit;
         this.img = img;
+    }
+
+    protected Entity() {
     }
 
     public boolean isRemove() {

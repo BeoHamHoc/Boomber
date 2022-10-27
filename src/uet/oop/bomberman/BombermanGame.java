@@ -9,10 +9,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -22,6 +25,7 @@ import uet.oop.bomberman.Graphics.Sprite;
 
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class BombermanGame extends Application {
@@ -75,7 +79,7 @@ public class BombermanGame extends Application {
                             board.update();
                             if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
                                 String res = "Game Over !!!";
-//                                endGame(res);
+                                endGame(res);
                                 finalStage.setScene(gameScene);
                             }
                             if (Board.getPlayer().isWin()) {
@@ -84,7 +88,7 @@ public class BombermanGame extends Application {
                                 Board.getPlayer().setHealth(3);
                                 Board.getPlayer().updateStatus();
                                 String res = "YOU WIN !!!";
-//                                endGame(res);
+                                endGame(res);
                                 finalStage.setScene(gameScene);
                             }
                         }
@@ -94,7 +98,7 @@ public class BombermanGame extends Application {
 
                     keyBoard.status(gameScene); // bat su kien
 //                    Sound.play("ghost");
-                    //board.countDown();
+                    board.countDown();
                 }
             }
 
@@ -237,4 +241,57 @@ public class BombermanGame extends Application {
         textTime.setText(String.valueOf(board.countDown() / 60));
     }
 
+    private void createMenu() {
+        menuPane = new AnchorPane();
+        menuScene = new Scene(menuPane, MENU_WIDTH, MENU_HEIGHT);
+        menuStage = new Stage();
+        menuStage.setScene(menuScene);
+        createBackGround();
+        createContinueButton();
+        createStartButton();
+    }
+
+    private void createContinueButton() {
+        InputStream input = getClass().getResourceAsStream("/button/continue.png");
+
+        javafx.scene.image.Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+        continueButton = new Button("", imageView);
+        continueButton.setStyle("-fx-background-color: #000000; ");
+
+        menuPane.getChildren().add(continueButton);
+        continueButton.setLayoutX(430);
+        continueButton.setLayoutY(400);
+
+    }
+
+    private void createStartButton() {
+        InputStream input = getClass().getResourceAsStream("/button/start.png");
+
+        javafx.scene.image.Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+        startButton = new Button("", imageView);
+        startButton.setStyle("-fx-background-color: #000000; ");
+
+        menuPane.getChildren().add(startButton);
+        startButton.setLayoutX(430);
+        startButton.setLayoutY(350);
+    }
+
+    private void createBackGround() {
+        Image back = new Image("/background/bomba.png", MENU_WIDTH, MENU_HEIGHT, false, true);
+        BackgroundImage backMenu = new BackgroundImage(back, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
+        menuPane.setBackground(new Background(backMenu));
+    }
+
+    private void endGame(String string) {
+        Group gameRoot = new Group();
+        Text textOver = new Text(250, 240, string);
+
+        textOver.setFont(Font.font("Arial", FontWeight.BOLD, 80));
+        textOver.setFill(Color.WHITE);
+
+        gameRoot.getChildren().add(textOver);
+        gameScene = new Scene(gameRoot, Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2), Color.BLACK);
+    }
 }

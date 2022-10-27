@@ -1,13 +1,16 @@
 package uet.oop.bomberman.Entities.Character;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.image.Image;
+
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Entities.Bomb.Bomb;
 import uet.oop.bomberman.Entities.Entity;
-//import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.Entities.Tile.Brick;
 import uet.oop.bomberman.Graphics.Sprite;
-//import uet.oop.bomberman.sound.Sound;
+    //import uet.oop.bomberman.sound.Sound;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -32,6 +35,7 @@ public class Bomber extends MovingObj {
     private boolean die = false;
     private boolean noDie = false;
     private int timeNoDie = 5 * 60;
+    private List<Bomb> bombs = new ArrayList<>();
 //    private List<Bomb> bombs = new ArrayList<>();
 
 
@@ -52,57 +56,84 @@ public class Bomber extends MovingObj {
         setFrameDie();
     }
 
-        private void setFrameRight() {
-            Image right0 = Sprite.player_right.getFxImage();
-            Image right1 = Sprite.player_right_1.getFxImage();
-            Image right2 = Sprite.player_right_2.getFxImage();
-            this.imgFrameRight = new Image[3];
-            imgFrameRight[0] = right0;
-            imgFrameRight[1] = right1;
-            imgFrameRight[2] = right2;
+    private void setFrameRight() {
+        Image right0 = Sprite.player_right.getFxImage();
+        Image right1 = Sprite.player_right_1.getFxImage();
+        Image right2 = Sprite.player_right_2.getFxImage();
+        this.imgFrameRight = new Image[3];
+        imgFrameRight[0] = right0;
+        imgFrameRight[1] = right1;
+        imgFrameRight[2] = right2;
+    }
+
+    private void setFrameLeft() {
+        Image left0 = Sprite.player_left.getFxImage();
+        Image left1 = Sprite.player_left_1.getFxImage();
+        Image left2 = Sprite.player_left_2.getFxImage();
+        this.imgFrameLeft = new Image[3];
+        imgFrameLeft[0] = left0;
+        imgFrameLeft[1] = left1;
+        imgFrameLeft[2] = left2;
+    }
+
+    private void setFrameUp() {
+        Image up0 = Sprite.player_up.getFxImage();
+        Image up1 = Sprite.player_up_1.getFxImage();
+        Image up2 = Sprite.player_up_2.getFxImage();
+        this.imgFrameUp = new Image[3];
+        imgFrameUp[0] = up0;
+        imgFrameUp[1] = up1;
+        imgFrameUp[2] = up2;
+    }
+
+    private void setFrameDown() {
+        Image down0 = Sprite.player_down.getFxImage();
+        Image down1 = Sprite.player_down_1.getFxImage();
+        Image down2 = Sprite.player_down_2.getFxImage();
+        this.imgFrameDown = new Image[3];
+        imgFrameDown[0] = down0;
+        imgFrameDown[1] = down1;
+        imgFrameDown[2] = down2;
+    }
+
+    private void setFrameDie() {
+        Image die0 = Sprite.player_dead1.getFxImage();
+        Image die1 = Sprite.player_dead2.getFxImage();
+        Image die2 = Sprite.player_dead3.getFxImage();
+        this.imgFrameDie = new Image[3];
+        imgFrameDie[0] = die0;
+        imgFrameDie[1] = die1;
+        imgFrameDie[2] = die2;
+    }
+
+    public List<Bomb> getBombs() {
+        return bombs;
+    }
+
+    public void addBomb(Bomb bomb) {
+        boolean check = true;
+        for (Bomb temp : bombs) {
+            if (temp.getX() == bomb.getX() && temp.getY() == bomb.getY()) {
+                check = false;
+                break;
+            }
         }
-
-        private void setFrameLeft() {
-            Image left0 = Sprite.player_left.getFxImage();
-            Image left1 = Sprite.player_left_1.getFxImage();
-            Image left2 = Sprite.player_left_2.getFxImage();
-            this.imgFrameLeft = new Image[3];
-            imgFrameLeft[0] = left0;
-            imgFrameLeft[1] = left1;
-            imgFrameLeft[2] = left2;
+        if (check) {
+            bombs.add(bomb);
+            //Sound.play("BOM_SET");
         }
+    }
 
-        private void setFrameUp() {
-            Image up0 = Sprite.player_up.getFxImage();
-            Image up1 = Sprite.player_up_1.getFxImage();
-            Image up2 = Sprite.player_up_2.getFxImage();
-            this.imgFrameUp = new Image[3];
-            imgFrameUp[0] = up0;
-            imgFrameUp[1] = up1;
-            imgFrameUp[2] = up2;
+    public void removeBombAt(double x, double y) {
+        for (int i = 0; i < bombs.size(); i++) {
+            Bomb temp = bombs.get(i);
+            if (temp.getX() == x && temp.getY() == y) {
+                bombs.remove(i);
+                Board.map[(int) temp.getY()][(int) temp.getX()] = ' ';
+                break;
+            }
         }
-
-        private void setFrameDown() {
-            Image down0 = Sprite.player_down.getFxImage();
-            Image down1 = Sprite.player_down_1.getFxImage();
-            Image down2 = Sprite.player_down_2.getFxImage();
-            this.imgFrameDown = new Image[3];
-            imgFrameDown[0] = down0;
-            imgFrameDown[1] = down1;
-            imgFrameDown[2] = down2;
-        }
-
-        private void setFrameDie() {
-            Image die0 = Sprite.player_dead1.getFxImage();
-            Image die1 = Sprite.player_dead2.getFxImage();
-            Image die2 = Sprite.player_dead3.getFxImage();
-            this.imgFrameDie = new Image[3];
-            imgFrameDie[0] = die0;
-            imgFrameDie[1] = die1;
-            imgFrameDie[2] = die2;
-        }
-
-
+    }
 
     @Override
     public void moveLeft() {
@@ -211,8 +242,6 @@ public class Bomber extends MovingObj {
             widthFrameNow = 20.0;
         } else if (right < 2 * animate) {
             widthFrameNow = 22.0;
-        } else {
-            widthFrameNow = 24.0;
         }
 
         double distance = widthFrameNow / (double) Sprite.SCALED_SIZE;
