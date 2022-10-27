@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import uet.oop.bomberman.Input.KeyBoard;
-import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.Graphics.Sprite;
 //import uet.oop.bomberman.sound.Sound;
 
 

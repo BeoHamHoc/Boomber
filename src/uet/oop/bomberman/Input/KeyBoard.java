@@ -2,7 +2,7 @@ package uet.oop.bomberman.Input;
 
 import javafx.scene.Scene;
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.Graphics.Sprite;
 
 public class KeyBoard {
     public boolean right, left, up, down, space, stop, start;
