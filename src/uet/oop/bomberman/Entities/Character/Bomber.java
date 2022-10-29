@@ -566,16 +566,20 @@ public class Bomber extends MovingObj {
             if (time < 10) {
                 this.setImg(imgFrameDie[0]);
                 time++;
-            } else if (time < 20) {
+            }
+            else if (time < 20) {
                 this.setImg(imgFrameDie[1]);
                 time++;
-            } else if (time < 30) {
+            }
+            else if (time < 30) {
                 this.setImg(imgFrameDie[2]);
                 time++;
-            } else if (time < 40) {
+            }
+            else if (time < 40) {
                 this.setImg(null);
                 time++;
-            } else {
+            }
+            else {
                 if (health == 0) {
                     die = true;
                     BombermanGame.board.removeEntityAt(this.x, this.y);

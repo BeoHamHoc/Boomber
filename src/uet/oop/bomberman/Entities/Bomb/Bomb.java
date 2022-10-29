@@ -13,8 +13,8 @@ import java.util.stream.IntStream;
 
 public class Bomb extends Entity {
 
-    protected double timeToExplode = 120;
-    protected int timeAfter = 30;
+    protected double timeToExplode = 600;
+    protected int timeAfter = 80;
     protected boolean exploded = false;
     protected DirectionExplosion[] explosions = new DirectionExplosion[4];
     private int animate = 0;
@@ -54,7 +54,7 @@ public class Bomb extends Entity {
     protected void explosion() {
 
         exploded = true;
-        //explosions = new DirectionExplosion[4];
+        explosions = new DirectionExplosion[4];
 
         for (int i = 0; i < explosions.length; i++) {
             explosions[i] = new DirectionExplosion((int) x, (int) y, i);
@@ -83,12 +83,14 @@ public class Bomb extends Entity {
             animate++;
             super.render(gc);
         } else if (!remove) {
-            int time = timeAfter % 30 ;
+            int time = timeAfter % 40 ;
             if (time >=20) {
                 setImg(Sprite.bomb_exploded2.getFxImage());
-            } else if (time >= 10) {
+            }
+            else if (time >= 10) {
                 setImg(Sprite.bomb_exploded1.getFxImage());
-            } else {
+            }
+            else {
                 setImg(Sprite.bomb_exploded.getFxImage());
             }
             super.render(gc);
