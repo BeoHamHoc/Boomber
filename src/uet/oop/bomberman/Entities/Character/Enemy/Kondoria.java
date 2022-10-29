@@ -48,7 +48,7 @@ public class Kondoria extends Enemy {
 
     @Override
     public int chooseDirection() {
-        return 0;
+        return AI.chooseDirectionMedium2(Board.getPlayer(),this,currentDirection);
     }
 
     @Override

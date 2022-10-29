@@ -48,7 +48,7 @@ public class Doll extends Enemy {
 
     @Override
     public int chooseDirection() {
-        return 0;
+        return AI.chooseDirectionMedium(this,currentDirection);
     }
 
     @Override

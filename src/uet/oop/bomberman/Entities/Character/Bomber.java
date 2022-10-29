@@ -1,24 +1,29 @@
 package uet.oop.bomberman.Entities.Character;
 
-import java.util.ArrayList;
-import java.util.List;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Entities.Bomb.Bomb;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.Tile.Brick;
+import uet.oop.bomberman.Entities.Tile.Item.Item;
+import uet.oop.bomberman.Entities.Tile.Item.Portal;
 import uet.oop.bomberman.Graphics.Sprite;
-    //import uet.oop.bomberman.sound.Sound;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static uet.oop.bomberman.BombermanGame.gc;
 
 public class Bomber extends MovingObj {
 
+    private final int animate = 6054;
     Image[] imgFrameRight;
     Image[] imgFrameLeft;
     Image[] imgFrameUp;
@@ -29,23 +34,13 @@ public class Bomber extends MovingObj {
     private int up = 0;
     private int down = 0;
     private int time = 0; // time to die
-    private final int animate = 6054;
     private int health;
     private boolean win = false;
     private boolean die = false;
     private boolean noDie = false;
     private int timeNoDie = 5 * 60;
     private List<Bomb> bombs = new ArrayList<>();
-//    private List<Bomb> bombs = new ArrayList<>();
 
-
-    public boolean getAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
 
     public Bomber(int x, int y, Image img, double speed) {
         super(x, y, img, speed);
@@ -54,6 +49,14 @@ public class Bomber extends MovingObj {
         setFrameUp();
         setFrameDown();
         setFrameDie();
+    }
+
+    public boolean getAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     private void setFrameRight() {
@@ -123,6 +126,15 @@ public class Bomber extends MovingObj {
             //Sound.play("BOM_SET");
         }
     }
+
+    public void placeBomb() {
+        if (BombermanGame.keyBoard.space && bombs.size() < Board.bombCount)
+            if (!(BombermanGame.board.getEntity(xBomb(), yBomb()) instanceof Brick)) {
+                Bomb bomb = new Bomb(xBomb(), yBomb(), false, Sprite.bomb.getFxImage());
+                addBomb(bomb);
+            }
+    }
+
 
     public void removeBombAt(double x, double y) {
         for (int i = 0; i < bombs.size(); i++) {
@@ -460,15 +472,138 @@ public class Bomber extends MovingObj {
         }
     }
 
-    public void setDie(boolean die) {
-        this.die = die;
-    }
-
     public boolean isDie() {
         return die;
+    }
+
+    public void setDie(boolean die) {
+        this.die = die;
     }
 
     public boolean isWin() {
         return win;
     }
+    public void collideWithItem(Item obj) {
+        if (alive) {
+            HashSet<String> maskPlayer1 = getMask(this);
+            HashSet<String> maskPlayer2 = getMask(obj);
+            maskPlayer1.retainAll(maskPlayer2);
+            if (obj instanceof Portal) {
+                Portal other = (Portal) obj;
+                if (other.getActive()) {
+                    if (maskPlayer1.size() > 300) {
+                        if (BombermanGame.board.getLevel() == Board.MAX_LEVEL) {
+                            win = true;
+                        } else {
+                            //Sound.play("CRYST_UP");
+                            Board.countDownTime = 181 * 60;
+                            int newLevel = BombermanGame.board.getLevel() + 1;
+                            Board.scorePrevious += Board.score;
+                            BombermanGame.board.changeLevel(newLevel);
+                            BombermanGame.board.setLevel(newLevel);
+                            updateStatus();
+                        }
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                            this.setImg(Sprite.player_right.getFxImage());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+//            else {
+//                if (!(obj instanceof Portal) && !obj.isActive()) {
+//                    if (maskPlayer1.size() > 0) {
+//                        obj.setActive(true);
+//                        //Sound.play("Item");
+//                    }
+//                }
+//            }
+        }
+    }
+    public void collide() {
+        for (int i = 0; i < BombermanGame.board.getEntities().size(); i++) {
+            if (BombermanGame.board.getEntities().get(i) instanceof Item) {
+                collideWithItem((Item) BombermanGame.board.getEntities().get(i));
+            }
+        }
+        for (int i = 0; i < BombermanGame.board.getEnemies().size(); i++) {
+            collideToDie(BombermanGame.board.getEnemies().get(i));
+        }
+    }
+    public void render(GraphicsContext gc) {
+        if (!noDie) {
+            super.render(gc);
+        } else {
+            if (Board.countDownTime % 4 == 0 || Board.countDownTime % 4 == 1) {
+                super.render(gc);
+            }
+        }
+        for (Bomb bomb : bombs) {
+            bomb.render(gc);
+        }
+    }
+    @Override
+    public void update() {
+        collide();
+        if (noDie) {
+            timeNoDie--;
+            if (timeNoDie == 0) {
+                noDie = false;
+                timeNoDie = 5 * 60;
+            }
+        }
+        for (int i = 0; i < bombs.size(); i++) {
+            updateWallFromBomb(bombs.get(i));
+            bombs.get(i).update();
+        }
+        if (alive) {
+            movingPlayer();
+            placeBomb();
+        } else {
+            if (time < 10) {
+                this.setImg(imgFrameDie[0]);
+                time++;
+            } else if (time < 20) {
+                this.setImg(imgFrameDie[1]);
+                time++;
+            } else if (time < 30) {
+                this.setImg(imgFrameDie[2]);
+                time++;
+            } else if (time < 40) {
+                this.setImg(null);
+                time++;
+            } else {
+                if (health == 0) {
+                    die = true;
+                    BombermanGame.board.removeEntityAt(this.x, this.y);
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    this.x = 1;
+                    this.y = 1;
+                    noDie = true;
+                    this.setImg(Sprite.player_right.getFxImage());
+                    alive = true;
+                    time = 0;
+                }
+            }
+        }
+    }
+    public void updateWallFromBomb(Bomb bomb) {
+        if (alive) {
+            HashSet<String> maskBomb = getMask(bomb);
+            HashSet<String> maskPlayer = getMask(this);
+            maskBomb.retainAll(maskPlayer);
+            if (maskBomb.size() == 0 && !Board.bombPass) {
+                Board.map[(int) bomb.getY()][(int) bomb.getX()] = 'B';
+            }
+        }
+    }
+
 }

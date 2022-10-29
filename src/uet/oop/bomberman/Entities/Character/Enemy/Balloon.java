@@ -6,6 +6,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Graphics.Sprite;
 
 public class Balloon extends Enemy {
+
     public Balloon(int x, int y, Image img, double speed) {
         super(x, y, img, speed);
         setFrameRight();
@@ -48,7 +49,7 @@ public class Balloon extends Enemy {
 
     @Override
     public int chooseDirection() {
-        return 0;
+        return AI.chooseDirectionRandom(this,currentDirection);
     }
 
     @Override

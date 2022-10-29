@@ -1,5 +1,5 @@
 package uet.oop.bomberman.Entities.Character.Enemy;
-
+import uet.oop.bomberman.Entities.Character.AI.AI;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Entities.Character.MovingObj;
@@ -20,7 +20,7 @@ public abstract class Enemy extends MovingObj {
     protected Image[] imgFrameDie;
     protected int currentDirection = 1;
     protected int time = 0;
-//    protected AI enemyAI = new AI();
+    protected AI AI = new AI();
     boolean alive = true;
 
     public Enemy(int x, int y, Image img, double speed) {
