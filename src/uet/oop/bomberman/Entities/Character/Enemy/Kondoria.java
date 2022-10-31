@@ -48,7 +48,7 @@ public class Kondoria extends Enemy {
 
     @Override
     public int chooseDirection() {
-        return AI.chooseDirectionMedium2(Board.getPlayer(),this,currentDirection);
+        return AI.chooseDirectionGoThroughBrick(this, currentDirection);
     }
 
     @Override
@@ -66,6 +66,24 @@ public class Kondoria extends Enemy {
             this.setImg(imgFrameDie[3]);
             Board.score += 100;
             BombermanGame.board.removeEnemyAt(this.x, this.y);
+        }
+    }
+    @Override
+    public void movingPlayer() {
+        currentDirection = chooseDirection();
+        switch (currentDirection) {
+            case 0:
+                moveUp();
+                break;
+            case 1:
+                moveRight();
+                break;
+            case 2:
+                moveDown();
+                break;
+            case 3:
+                moveLeft();
+                break;
         }
     }
 }
