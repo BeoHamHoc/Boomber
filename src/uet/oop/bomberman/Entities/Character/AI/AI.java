@@ -18,7 +18,7 @@ public class AI {
         double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
         double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
         if (tempX == (int) tempX && tempY == (int) tempY) {
-            Random rd = new Random(System.currentTimeMillis()); //something like srand in C++
+            Random rd = new Random(System.currentTimeMillis());
             int i = Math.abs(rd.nextInt()) % 4;
             return i;
         } else {
