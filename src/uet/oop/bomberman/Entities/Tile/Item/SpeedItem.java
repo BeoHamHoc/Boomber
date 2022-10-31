@@ -7,31 +7,32 @@ import uet.oop.bomberman.BombermanGame;
 
 
 public class SpeedItem extends Item {
-    private boolean active = false;
+    private boolean activated = false;
 
     public SpeedItem(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
 
-    public SpeedItem(int xUnit, int yUnit, Image img, int timeActive, boolean activated) {
-        super(xUnit, yUnit, img, timeActive, activated);
+    public SpeedItem(int xUnit, int yUnit, Image img, int timeActivated, boolean activated) {
+        super(xUnit, yUnit, img, timeActivated, activated);
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isActivated() {
+        return activated;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     @Override
     public void update() {
 
-        if (active) {
+        if (activated) {
             remove = true;
-            Board.getPlayer().setSpeed(Board.getPlayer().getSpeed()+0.005);
+            Board.getPlayer().setSpeed(Board.getPlayer().getSpeed()+0.001);
             BombermanGame.board.removeEntityAt(this.x, this.y);
+            System.out.println(Board.getPlayer().getSpeed());
         }
     }
     public void render(GraphicsContext gc) {

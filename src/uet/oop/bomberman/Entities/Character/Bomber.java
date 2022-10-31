@@ -10,6 +10,7 @@ import uet.oop.bomberman.Entities.Tile.Brick;
 import uet.oop.bomberman.Entities.Tile.Item.Item;
 import uet.oop.bomberman.Entities.Tile.Item.Portal;
 import uet.oop.bomberman.Graphics.Sprite;
+import uet.oop.bomberman.Sound.Sound;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,11 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static uet.oop.bomberman.BombermanGame.gc;
-
 public class Bomber extends MovingObj {
 
-    private final int animate = 6054;
+    private final int animate = 4;
     Image[] imgFrameRight;
     Image[] imgFrameLeft;
     Image[] imgFrameUp;
@@ -40,6 +39,7 @@ public class Bomber extends MovingObj {
     private boolean noDie = false;
     private int timeNoDie = 5 * 60;
     private List<Bomb> bombs = new ArrayList<>();
+    double countDownBomb = 0;
 
 
     public Bomber(int x, int y, Image img, double speed) {
@@ -51,9 +51,7 @@ public class Bomber extends MovingObj {
         setFrameDie();
     }
 
-    public boolean getAlive() {
-        return alive;
-    }
+
 
     public void setAlive(boolean alive) {
         this.alive = alive;
@@ -128,11 +126,19 @@ public class Bomber extends MovingObj {
     }
 
     public void placeBomb() {
-        if (BombermanGame.keyBoard.space && bombs.size() < Board.bombCount)
+        if (BombermanGame.keyBoard.space && bombs.size() < Board.bombCount && countDownBomb <= 0)
             if (!(BombermanGame.board.getEntity(xBomb(), yBomb()) instanceof Brick)) {
                 Bomb bomb = new Bomb(xBomb(), yBomb(), false, Sprite.bomb.getFxImage());
                 addBomb(bomb);
+                countDownBomb = 400-((speed-0.0035)*1000*50);
+                CountDownBomb();
+                System.out.println(speed);
             }
+    }
+    public double CountDownBomb() {
+        countDownBomb--;
+        return countDownBomb;
+
     }
 
 
@@ -441,16 +447,16 @@ public class Bomber extends MovingObj {
                 if (health == 0) {
                     setAlive(false);
 
-                    //Sound.play("endgame3");
+                    Sound.play("endgame3");
                 } else {
-                    //Sound.play("AA126_11");
+                    Sound.play("AA126_11");
                     setAlive(false);
                 }
             }
         }
     }
 
-//
+
 
     public int getHealth() {
         return this.health;
@@ -475,11 +481,6 @@ public class Bomber extends MovingObj {
     public boolean isDie() {
         return die;
     }
-
-    public void setDie(boolean die) {
-        this.die = die;
-    }
-
     public boolean isWin() {
         return win;
     }
@@ -490,7 +491,7 @@ public class Bomber extends MovingObj {
             maskPlayer1.retainAll(maskPlayer2);
             if (obj instanceof Portal) {
                 Portal other = (Portal) obj;
-                if (other.getActive()) {
+                if (other.getActivated()) {
                     if (maskPlayer1.size() > 300) {
                         if (BombermanGame.board.getLevel() == Board.MAX_LEVEL) {
                             win = true;
@@ -513,14 +514,14 @@ public class Bomber extends MovingObj {
                     }
                 }
             }
-//            else {
-//                if (!(obj instanceof Portal) && !obj.isActive()) {
-//                    if (maskPlayer1.size() > 0) {
-//                        obj.setActive(true);
-//                        //Sound.play("Item");
-//                    }
-//                }
-//            }
+            else {
+                if (!obj.isActivated()) {
+                    if (maskPlayer1.size() > 0) {
+                        obj.setActivated(true);
+                        //Sound.play("Item");
+                    }
+                }
+            }
         }
     }
     public void collide() {
@@ -555,13 +556,14 @@ public class Bomber extends MovingObj {
                 timeNoDie = 5 * 60;
             }
         }
-        for (int i = 0; i < bombs.size(); i++) {
-            updateWallFromBomb(bombs.get(i));
-            bombs.get(i).update();
+        for (Bomb bomb : bombs) {
+            updateWallFromBomb(bomb);
+            bomb.update();
         }
         if (alive) {
             movingPlayer();
             placeBomb();
+            CountDownBomb();
         } else {
             if (time < 10) {
                 this.setImg(imgFrameDie[0]);

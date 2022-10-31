@@ -1,9 +1,8 @@
 package uet.oop.bomberman;
 
-import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.Character.Bomber;
-import uet.oop.bomberman.Entities.Character.Enemy.*;
-
+import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
+import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Graphics.Sprite;
 import uet.oop.bomberman.Level.Level;
 
@@ -19,7 +18,7 @@ public class Board {
     public static final int MAX_LEVEL = 3;
     public static char[][] map = new char[HEIGHT][WIDTH];
 
-    public static int bombCount =10;
+    public static int bombCount =1;
     public static int bombRadius = 1;
     public static int score = 0;
     public static boolean flamePass = false;
@@ -28,12 +27,13 @@ public class Board {
     public static int countDownTime = 180 * 60;
     public static int scorePrevious;
     public static double speedOfEnemy = 0.025;
+    private static double speedOfPlayer = 0.0035;
     public static File file = new File("res/levels/save.txt");
     private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> stillObjects = new ArrayList<>();
     private static List<Enemy> enemies = new ArrayList<>();
     private static Bomber player;
-    private double speedOfPlayer = 0.005;
+
     private Level gameLevel;
     private int level;
 
@@ -48,10 +48,6 @@ public class Board {
 
     public static Bomber getPlayer() {
         return player;
-    }
-
-    public void setPlayer(Bomber player) {
-        this.player = player;
     }
 
     /**
@@ -78,8 +74,7 @@ public class Board {
      * Đưa quái vật vào vị trí trong bản đồ
      */
     public Entity getEntity(double x, double y) {
-        for (int i = 0; i < entities.size(); i++) {
-            Entity temp = entities.get(i);
+        for (Entity temp : entities) {
             if (temp.getX() == x && temp.getY() == y) {
                 return temp;
             }
@@ -106,11 +101,11 @@ public class Board {
     }
 
     public List<Entity> getEntities() {
-        return this.entities;
+        return entities;
     }
 
     public List<Entity> getStillObjects() {
-        return this.stillObjects;
+        return stillObjects;
     }
 
     public int getLeft() {
@@ -138,6 +133,7 @@ public class Board {
         countDownTime--;
         return countDownTime;
     }
+
 
     public int index(double x, double y) {
         for (int i = 0; i < entities.size(); i++) {
@@ -167,14 +163,15 @@ public class Board {
         BombermanGame.board.getStillObjects().forEach(g -> g.render(BombermanGame.gc));
         BombermanGame.board.getEntities().forEach(g -> g.render(BombermanGame.gcForPlayer));
         BombermanGame.board.getEnemies().forEach(g -> g.render(BombermanGame.gcForPlayer));
+
     }
 
     public void update() {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.get(i).update();
+        for (Entity entity : entities) {
+            entity.update();
         }
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).update();
+        for (Enemy enemy : enemies) {
+            enemy.update();
         }
     }
 
@@ -206,8 +203,4 @@ public class Board {
         return getPlayer().isDie();
     }
 
-    public char[][] reviveMap() {
-        if (map != null) update();
-        return map;
-    }
 }

@@ -1,5 +1,5 @@
 package uet.oop.bomberman;
-
+import uet.oop.bomberman.Sound.Sound;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -8,21 +8,18 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import uet.oop.bomberman.Input.KeyBoard;
+import javafx.stage.Stage;
 import uet.oop.bomberman.Graphics.Sprite;
-//import uet.oop.bomberman.sound.Sound;
-
+import uet.oop.bomberman.Input.KeyBoard;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -46,7 +43,6 @@ public class BombermanGame extends Application {
     private static final int MENU_WIDTH = 992;
     private static final int MENU_HEIGHT = 480;
     private AnchorPane menuPane;
-    private Scene menuScene;
     private Stage menuStage;
     private Button continueButton;
     private Button startButton;
@@ -57,51 +53,44 @@ public class BombermanGame extends Application {
         Stage finalStage = stage;
         stage.show();
 
-        startButton.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    try {
-                        initNewGame();
-                        createTextScene();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    initializeStage();
-                    finalStage.setScene(gameScene);
-                    finalStage.show();
-
-                    AnimationTimer timer = new AnimationTimer() {
-                        @Override
-                        public void handle(long l) {
-                            update();
-                            board.render();
-                            board.update();
-                            if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
-                                String res = "Game Over !!!";
-                                endGame(res);
-                                finalStage.setScene(gameScene);
-                            }
-                            if (Board.getPlayer().isWin()) {
-                                Board.scorePrevious = 0;
-                                BombermanGame.board.setLevel(1);
-                                Board.getPlayer().setHealth(3);
-                                Board.getPlayer().updateStatus();
-                                String res = "YOU WIN !!!";
-                                endGame(res);
-                                finalStage.setScene(gameScene);
-                            }
-                        }
-                    };
-
-                    timer.start();
-
-                    keyBoard.status(gameScene); // bat su kien
-//                    Sound.play("ghost");
-                    board.countDown();
+        startButton.setOnMousePressed(event -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                try {
+                    initNewGame();
+                    createTextScene();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-            }
+                initializeStage();
+                finalStage.setScene(gameScene);
+                finalStage.show();
 
+                AnimationTimer timer = new AnimationTimer() {
+                    @Override
+                    public void handle(long l) {
+                        update();
+                        board.render();
+                        board.update();
+                        if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
+                            finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
+                        }
+                        if (Board.getPlayer().isWin()) {
+                            Board.scorePrevious = 0;
+                            BombermanGame.board.setLevel(1);
+                            Board.getPlayer().setHealth(3);
+                            Board.getPlayer().updateStatus();
+                            finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
+
+                        }
+                    }
+                };
+
+                timer.start();
+
+                keyBoard.status(gameScene); // bat su kien
+                Sound.play("Back");
+                board.countDown();
+            }
         });
 
 
@@ -126,18 +115,14 @@ public class BombermanGame extends Application {
                             board.render();
                             board.update();
                             if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
-                                String res = "Game Over !!!";
-                                endGame(res);
-                                finalStage.setScene(gameScene);
+                                finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
                             }
                             if (Board.getPlayer().isWin()) {
                                 Board.scorePrevious = 0;
                                 BombermanGame.board.setLevel(1);
                                 Board.getPlayer().setHealth(3);
                                 Board.getPlayer().updateStatus();
-                                String res = "YOU WIN !!!";
-                                endGame(res);
-                                finalStage.setScene(gameScene);
+                                finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
                             }
                         }
                     };
@@ -145,7 +130,7 @@ public class BombermanGame extends Application {
                     timer.start();
 
                     keyBoard.status(gameScene); // bat su kien
-//                    Sound.play("ghost");
+                    Sound.play("Back");
                     board.countDown();
                 }
 
@@ -167,6 +152,8 @@ public class BombermanGame extends Application {
         Board.getPlayer().setHealth(3);
         board.setLevel(1);
         board.getGameLevel().createMapLevel(1);
+        System.out.println("dang tao game");
+
     }
 
     public void createTextScene() {
@@ -243,7 +230,7 @@ public class BombermanGame extends Application {
 
     private void createMenu() {
         menuPane = new AnchorPane();
-        menuScene = new Scene(menuPane, MENU_WIDTH, MENU_HEIGHT);
+        Scene menuScene = new Scene(menuPane, MENU_WIDTH, MENU_HEIGHT);
         menuStage = new Stage();
         menuStage.setScene(menuScene);
         createBackGround();
@@ -257,10 +244,10 @@ public class BombermanGame extends Application {
         javafx.scene.image.Image image = new Image(input);
         ImageView imageView = new ImageView(image);
         continueButton = new Button("", imageView);
-        continueButton.setStyle("-fx-background-color: #000000; ");
+        continueButton.setStyle("-fx-background-color: rgba(0,0,0,0); ");
 
         menuPane.getChildren().add(continueButton);
-        continueButton.setLayoutX(430);
+        continueButton.setLayoutX(406);
         continueButton.setLayoutY(400);
 
     }
@@ -271,7 +258,7 @@ public class BombermanGame extends Application {
         javafx.scene.image.Image image = new Image(input);
         ImageView imageView = new ImageView(image);
         startButton = new Button("", imageView);
-        startButton.setStyle("-fx-background-color: #000000; ");
+        startButton.setStyle("-fx-background-color: rgba(0,0,0,0); ");
 
         menuPane.getChildren().add(startButton);
         startButton.setLayoutX(430);
@@ -279,19 +266,22 @@ public class BombermanGame extends Application {
     }
 
     private void createBackGround() {
-        Image back = new Image("/background/bomba.png", MENU_WIDTH, MENU_HEIGHT, false, true);
+        Image back = new Image("/background/Background.png", MENU_WIDTH, MENU_HEIGHT, false, true);
         BackgroundImage backMenu = new BackgroundImage(back, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
         menuPane.setBackground(new Background(backMenu));
     }
 
-    private void endGame(String string) {
+    private Scene gameFinalScene(boolean check) {
         Group gameRoot = new Group();
-        Text textOver = new Text(250, 240, string);
-
+        Text textOver;
+        if(!check)
+            textOver = new Text(250, 240, "Game over!");
+        else
+            textOver = new Text(250, 240, "Win");
         textOver.setFont(Font.font("Arial", FontWeight.BOLD, 80));
         textOver.setFill(Color.WHITE);
 
         gameRoot.getChildren().add(textOver);
-        gameScene = new Scene(gameRoot, Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2), Color.BLACK);
+        return new Scene(gameRoot, Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2), Color.BLACK);
     }
 }

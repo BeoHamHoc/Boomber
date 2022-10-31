@@ -6,13 +6,13 @@ import uet.oop.bomberman.BombermanGame;
 
 public class Portal extends Item {
 
-    private boolean active = false;
+    private boolean activated = false;
 
-    public boolean getActive() {
-        return this.active;
+    public boolean getActivated() {
+        return this.activated;
     }
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public Portal(int x, int y, Image img) {
@@ -27,9 +27,9 @@ public class Portal extends Item {
     public void update() {
 
         if (BombermanGame.board.getEnemies().size() == 0) {
-            active = true;
+            activated = true;
         }
-        if (active) {
+        if (activated) {
             Board.map[(int) this.y][(int) this.x] = ' ';
         } else {
             Board.map[(int) this.y][(int) this.x] = '#';

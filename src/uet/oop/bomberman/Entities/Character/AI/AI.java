@@ -27,8 +27,8 @@ public class AI {
     }
 
     public int chooseDirectionMedium(Enemy enemy, int currentDirection) {
-        double bomberX = BombermanGame.board.getPlayer().getX();
-        double bomberY = BombermanGame.board.getPlayer().getY();
+        double bomberX = Board.getPlayer().getX();
+        double bomberY = Board.getPlayer().getY();
         double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
         double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
         double diffX = bomberX - enemy.getX();
@@ -60,8 +60,8 @@ public class AI {
     }
 
     public int chooseDirectionMedium2(Bomber bomber, Enemy enemy, int currentDirection) {
-        double bomberX = BombermanGame.board.getPlayer().getX();
-        double bomberY = BombermanGame.board.getPlayer().getY();
+        double bomberX = Board.getPlayer().getX();
+        double bomberY = Board.getPlayer().getY();
         double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
         double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
         double diffX = bomberX - enemy.getX();
@@ -132,8 +132,8 @@ public class AI {
 
     public boolean checkDirectionToAvoidBomb(Bomber bomber, Enemy enemy, int direction) {
         List<Bomb> bombs = bomber.getBombs();
-        for (int i = 0; i < bombs.size(); i++) {
-            if (!avoidBomb(enemy, bombs.get(i).getX(), bombs.get(i).getY(), direction))
+        for (Bomb bomb : bombs) {
+            if (!avoidBomb(enemy, bomb.getX(), bomb.getY(), direction))
                 return false;
         }
         return true;

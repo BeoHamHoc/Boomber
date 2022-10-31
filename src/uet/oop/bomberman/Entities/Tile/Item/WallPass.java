@@ -7,29 +7,29 @@ import uet.oop.bomberman.BombermanGame;
 
 
 public class WallPass extends Item {
-    private boolean active = false;
+    private boolean activated = false;
 
     public WallPass(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
 
     }
 
-    public WallPass(int xUnit, int yUnit, Image img, int timeActive, boolean activated) {
-        super(xUnit, yUnit, img, timeActive, activated);
+    public WallPass(int xUnit, int yUnit, Image img, int timeActivated, boolean activated) {
+        super(xUnit, yUnit, img, timeActivated, activated);
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isActivated() {
+        return activated;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     @Override
     public void update() {
 
-        if (active) {
+        if (activated) {
             remove = true;
             Board.wallPass = true;
             BombermanGame.board.removeEntityAt(this.x, this.y);

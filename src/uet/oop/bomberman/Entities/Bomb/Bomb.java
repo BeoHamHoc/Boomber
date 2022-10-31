@@ -6,14 +6,14 @@ import uet.oop.bomberman.Board;
 
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Graphics.Sprite;
-//import uet.oop.bomberman.Sound.Sound;
+import uet.oop.bomberman.Sound.Sound;
 
 import java.util.HashSet;
 import java.util.stream.IntStream;
 
 public class Bomb extends Entity {
 
-    protected double timeToExplode = 600;
+    protected double timeToExplode =1800;
     protected int timeAfter = 80;
     protected boolean exploded = false;
     protected DirectionExplosion[] explosions = new DirectionExplosion[4];
@@ -42,7 +42,7 @@ public class Bomb extends Entity {
                     updateExplosions();
                 } else {
                     remove = true;
-                    //Sound.play("BOM_11_M");
+                    Sound.play("BOM_11_M");
                 }
             }
         }
@@ -54,7 +54,7 @@ public class Bomb extends Entity {
     protected void explosion() {
 
         exploded = true;
-        explosions = new DirectionExplosion[4];
+//        explosions = new DirectionExplosion[4];
 
         for (int i = 0; i < explosions.length; i++) {
             explosions[i] = new DirectionExplosion((int) x, (int) y, i);

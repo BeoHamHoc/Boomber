@@ -7,33 +7,34 @@ import uet.oop.bomberman.BombermanGame;
 
 
 public class Detonator extends Item {
-    private boolean active = false;
+    private boolean activated = false;
 
     public Detonator(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
 
     }
 
-    public Detonator(int xUnit, int yUnit, Image img, int timeActive, boolean activated) {
-        super(xUnit, yUnit, img, timeActive, activated);
+    public Detonator(int xUnit, int yUnit, Image img, int timeActivated, boolean activated) {
+        super(xUnit, yUnit, img, timeActivated, activated);
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isActivated() {
+        return activated;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     @Override
     public void update() {
 
-        if (active) {
+        if (activated) {
             remove = true;
             Board.getPlayer().setHealth(Board.getPlayer().getHealth()+1);
             Board.getPlayer().updateStatus();
             BombermanGame.board.removeEntityAt(this.x, this.y);
+            System.out.println(Board.getPlayer().getHealth());
         }
     }
     @Override

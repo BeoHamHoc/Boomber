@@ -70,7 +70,7 @@ public abstract class Entity {
         Image imgObj = go.getImg();
         HashSet<String> mask = null;
         if (imgObj != null) {
-            mask = new HashSet<String>();
+            mask = new HashSet<>();
             int W = (int) imgObj.getWidth();
             int H = (int) imgObj.getHeight();
 

@@ -84,6 +84,8 @@ public class DirectionExplosion extends Entity {
     }
 
     public void update(int time) {
+//        for (Explosion value : explosion) {
+//            value.update(direction, time);
         for (Explosion value : explosion) {
             value.update(direction, time);
         }

@@ -7,7 +7,7 @@ import uet.oop.bomberman.BombermanGame;
 
 
 public class FlamePass extends Item {
-    private boolean active = false;
+    private boolean activated = false;
 
     public FlamePass(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -18,18 +18,18 @@ public class FlamePass extends Item {
         super(xUnit, yUnit, img, timeActive, activated);
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isActivated() {
+        return activated;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     @Override
     public void update() {
 
-        if (active) {
+        if (activated) {
             remove = true;
             Board.flamePass = true;
             BombermanGame.board.removeEntityAt(this.x, this.y);
