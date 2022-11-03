@@ -1,11 +1,13 @@
 package uet.oop.bomberman.Entities.Character.Enemy;
 
 import javafx.scene.image.Image;
+
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Graphics.Sprite;
 
 public class Doll extends Enemy {
+
     public Doll(int x, int y, Image img, double speed) {
         super(x, y, img, speed);
         setFrameRight();
@@ -32,7 +34,6 @@ public class Doll extends Enemy {
         imgFrameLeft[1] = left1;
         imgFrameLeft[2] = left2;
     }
-
 
     private void setFrameDie() {
         Image die0 = Sprite.doll_dead.getFxImage();

@@ -2,7 +2,7 @@ package uet.oop.bomberman.Entities.Character.Enemy;
 import uet.oop.bomberman.Entities.Character.AI.AI;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.Entities.Character.MovingObj;
+import uet.oop.bomberman.Entities.Character.MovingObject;
 import uet.oop.bomberman.Entities.Entity;
 
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import java.util.HashSet;
 // Doll = 3
 // Kondoria = 4MovingObj {
 
-public abstract class Enemy extends MovingObj {
+public abstract class Enemy extends MovingObject {
     protected Image[] imgFrameRight;
     protected Image[] imgFrameLeft;
     protected Image[] imgFrameDie;

@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Bomber extends MovingObj {
+public class Bomber extends MovingObject {
 
     private final int animate = 4;
     Image[] imgFrameRight;
@@ -34,12 +34,13 @@ public class Bomber extends MovingObj {
     private int down = 0;
     private int time = 0; // time to die
     private int health;
+    public int MAX_HEALTH = 3;
     private boolean win = false;
     private boolean die = false;
     private boolean noDie = false;
     private int timeNoDie = 5 * 60;
     private List<Bomb> bombs = new ArrayList<>();
-    double countDownBomb = 0;
+    private double countDownBomb = 0;
 
 
     public Bomber(int x, int y, Image img, double speed) {
@@ -121,7 +122,7 @@ public class Bomber extends MovingObj {
         }
         if (check) {
             bombs.add(bomb);
-            //Sound.play("BOM_SET");
+            Sound.play("BOM_SET");
         }
     }
 
@@ -135,12 +136,11 @@ public class Bomber extends MovingObj {
                 System.out.println(speed);
             }
     }
+
     public double CountDownBomb() {
         countDownBomb--;
         return countDownBomb;
-
     }
-
 
     public void removeBombAt(double x, double y) {
         for (int i = 0; i < bombs.size(); i++) {
@@ -496,7 +496,7 @@ public class Bomber extends MovingObj {
                         if (BombermanGame.board.getLevel() == Board.MAX_LEVEL) {
                             win = true;
                         } else {
-                            //Sound.play("CRYST_UP");
+                            Sound.play("CRYST_UP");
                             Board.countDownTime = 181 * 60;
                             int newLevel = BombermanGame.board.getLevel() + 1;
                             Board.scorePrevious += Board.score;
@@ -518,7 +518,7 @@ public class Bomber extends MovingObj {
                 if (!obj.isActivated()) {
                     if (maskPlayer1.size() > 0) {
                         obj.setActivated(true);
-                        //Sound.play("Item");
+                        Sound.play("Item");
                     }
                 }
             }

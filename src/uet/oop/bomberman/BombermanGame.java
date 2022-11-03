@@ -1,5 +1,5 @@
 package uet.oop.bomberman;
-import uet.oop.bomberman.Sound.Sound;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -18,6 +18,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.Graphics.Sprite;
 import uet.oop.bomberman.Input.KeyBoard;
 
@@ -46,6 +48,8 @@ public class BombermanGame extends Application {
     private Stage menuStage;
     private Button continueButton;
     private Button startButton;
+
+    private Button replayButton;
 
     public void start(Stage stage) {
         createMenu();
@@ -76,8 +80,8 @@ public class BombermanGame extends Application {
                         }
                         if (Board.getPlayer().isWin()) {
                             Board.scorePrevious = 0;
-                            BombermanGame.board.setLevel(1);
-                            Board.getPlayer().setHealth(3);
+                            BombermanGame.board.setLevel(Board.MAX_LEVEL);
+                            Board.getPlayer().setHealth(Board.getPlayer().MAX_HEALTH);
                             Board.getPlayer().updateStatus();
                             finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
 
@@ -92,7 +96,6 @@ public class BombermanGame extends Application {
                 board.countDown();
             }
         });
-
 
         continueButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -119,8 +122,8 @@ public class BombermanGame extends Application {
                             }
                             if (Board.getPlayer().isWin()) {
                                 Board.scorePrevious = 0;
-                                BombermanGame.board.setLevel(1);
-                                Board.getPlayer().setHealth(3);
+                                BombermanGame.board.setLevel(Board.MAX_LEVEL);
+                                Board.getPlayer().setHealth(Board.getPlayer().MAX_HEALTH);
                                 Board.getPlayer().updateStatus();
                                 finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
                             }
@@ -156,6 +159,11 @@ public class BombermanGame extends Application {
 
     }
 
+    public void initReplayGame() throws FileNotFoundException {
+        board = new Board();
+        keyBoard = new KeyBoard();
+
+    }
     public void createTextScene() {
         Text textS = new Text(30, 35, "Score: ");
         Text textT = new Text(230, 35, "Time: ");
@@ -265,6 +273,18 @@ public class BombermanGame extends Application {
         startButton.setLayoutY(350);
     }
 
+    private void createReplayButton() {
+        InputStream input = getClass().getResourceAsStream("/button/replay.jpg");
+
+        javafx.scene.image.Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+        replayButton = new Button("", imageView);
+        replayButton.setStyle("-fx-background-color: rgba(0,0,0,0); ");
+
+        replayButton.setLayoutX(435);
+        replayButton.setLayoutY(450);
+    }
+
     private void createBackGround() {
         Image back = new Image("/background/Background.png", MENU_WIDTH, MENU_HEIGHT, false, true);
         BackgroundImage backMenu = new BackgroundImage(back, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
@@ -272,16 +292,20 @@ public class BombermanGame extends Application {
     }
 
     private Scene gameFinalScene(boolean check) {
+
         Group gameRoot = new Group();
         Text textOver;
-        if(!check)
-            textOver = new Text(250, 240, "Game over!");
+        if(!check) {
+            //textOver = new Text(250, 240, "Game over!");
+            createReplayButton();
+        }
         else
             textOver = new Text(250, 240, "Win");
-        textOver.setFont(Font.font("Arial", FontWeight.BOLD, 80));
-        textOver.setFill(Color.WHITE);
+        //textOver.setFont(Font.font("Arial", FontWeight.BOLD, 80));
+        //textOver.setFill(Color.WHITE);
 
-        gameRoot.getChildren().add(textOver);
-        return new Scene(gameRoot, Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2), Color.BLACK);
+        //gameRoot.getChildren().add(textOver);
+
+        return new Scene(gameRoot, Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2));
     }
 }

@@ -6,6 +6,7 @@ import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Graphics.Sprite;
 import uet.oop.bomberman.Level.Level;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class Board {
     private static List<Entity> stillObjects = new ArrayList<>();
     private static List<Enemy> enemies = new ArrayList<>();
     private static Bomber player;
-
     private Level gameLevel;
     private int level;
 
