@@ -1,26 +1,37 @@
 package uet.oop.bomberman.Entities.Character.AI;
 
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Entities.Bomb.Bomb;
 import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+/* 0 : up
+1 : right
+2: down
+3: left
+*/
 public class AI {
-    private Random random = new Random();
     int[] deltaX = {0, 1, 0, -1};
     int[] deltaY = {-1, 0, 1, 0};
+    private Random random = new Random();
+    public void bestDirection(Bomber bomber, Enemy enemy, int currentDirection) {
+        double bomberX = Board.getPlayer().getX();
+        double bomberY = Board.getPlayer().getY();
+        double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
+        double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
+        double diffX = bomberX - enemy.getX();
+        double diffY = bomberY - enemy.getY();
 
+    }
     public int chooseDirectionRandom(Enemy enemy, int currentDirection) {
         double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
         double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
         if (tempX == (int) tempX && tempY == (int) tempY) {
             Random rd = new Random(System.currentTimeMillis());
-            int i = Math.abs(rd.nextInt()) % 4;
-            return i;
+            return Math.abs(rd.nextInt()) % 4;
         } else {
             return currentDirection;
         }
@@ -41,7 +52,7 @@ public class AI {
         }
 
         if (distance < 3) {
-            enemy.setSpeed(Board.speedOfEnemy * 1.25 * 1.2);
+            enemy.setSpeed(Board.speedOfEnemy * 2);
         }
         if (distance < 6) {
             if (tempX == (int) tempX && tempY == (int) tempY) {
@@ -55,7 +66,8 @@ public class AI {
                 } else possibleDirections.add(0);
 
                 return possibleDirections.get(Math.abs(random.nextInt() % 2));
-            } return currentDirection;
+            }
+            return currentDirection;
         } else return chooseDirectionRandom(enemy, currentDirection);
     }
 
@@ -92,7 +104,7 @@ public class AI {
                     case 0:
                         int direction = -1;
                         for (int i = 0; i < 4; i++) {
-                            if (checkDirectionToAvoidBomb(bomber, enemy, i)) {
+                            if (checkDirectionToAvoidBomb(bomber, enemy, i) ) {
                                 direction = i;
                             }
                         }
@@ -105,21 +117,30 @@ public class AI {
                     case 2:
                         return possibleDirections.get(Math.abs(random.nextInt() % 2));
                 }
-            } return currentDirection;
+            }
+            return currentDirection;
         } else return chooseDirectionRandom(enemy, currentDirection);
     }
 
-    public int chooseDirectionGoThroughBrick(Enemy enemy, int currentDirection) {
+    public int chooseDirectionGoThroughBrick(Bomber bomber,Enemy enemy, int currentDirection) {
         double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
         double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
+        double bomberX = Board.getPlayer().getX();
+        double bomberY = Board.getPlayer().getY();
+        double diffX = bomberX - enemy.getX();
+        double diffY = bomberY - enemy.getY();
+        double distance = Math.sqrt(diffX * diffX + diffY * diffY);
         if (tempX == (int) tempX && tempY == (int) tempY) {
             ArrayList<Integer> possibleDirections = new ArrayList<>();
 
             for (int i = 0; i < 4; i++) {
-                if (checkCanMoveThroughBrick(enemy, i)) possibleDirections.add(i);
+                if (checkCanMoveThroughBrick(enemy, i) && checkDirectionToAvoidBomb( bomber, enemy, i))
+
+                    possibleDirections.add(i);
             }
 
             int size = possibleDirections.size();
+
             if (size == 0) return -1;
             else {
                 int i = Math.abs(random.nextInt() % size);
@@ -154,9 +175,10 @@ public class AI {
 
         int distanceSquare = diffX * diffX + diffY * diffY;
 
-        if (distanceSquare < 3) {
+        if (distanceSquare < 3 * Board.bombRadius) {
             return false;
-        } {
+        }
+        {
             return true;
         }
     }

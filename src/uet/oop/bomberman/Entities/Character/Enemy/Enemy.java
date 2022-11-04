@@ -220,22 +220,26 @@ public abstract class Enemy extends MovingObj {
     public void movingPlayer() {
         currentDirection = chooseDirection();
         switch (currentDirection) {
-            case 0:
+            case 0 : {
                 moveUp();
                 checkToMapMoveUp();
                 break;
-            case 1:
+            }
+            case 1 : {
                 moveRight();
                 checkToMapMoveRight();
                 break;
-            case 2:
+            }
+            case 2 : {
                 moveDown();
                 checkToMapMoveDown();
                 break;
-            case 3:
+            }
+            case 3 : {
                 moveLeft();
                 checkToMapMoveLeft();
                 break;
+            }
         }
     }
 
