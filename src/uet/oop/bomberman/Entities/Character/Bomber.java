@@ -34,7 +34,7 @@ public class Bomber extends MovingObject {
     private int down = 0;
     private int time = 0; // time to die
     private int health;
-    public int MAX_HEALTH = 3;
+    public int DEFAULT_HEALTH = 3;
     private boolean win = false;
     private boolean die = false;
     private boolean noDie = false;
@@ -524,6 +524,7 @@ public class Bomber extends MovingObject {
             }
         }
     }
+
     public void collide() {
         for (int i = 0; i < BombermanGame.board.getEntities().size(); i++) {
             if (BombermanGame.board.getEntities().get(i) instanceof Item) {
@@ -534,6 +535,7 @@ public class Bomber extends MovingObject {
             collideToDie(BombermanGame.board.getEnemies().get(i));
         }
     }
+
     public void render(GraphicsContext gc) {
         if (!noDie) {
             super.render(gc);
@@ -546,6 +548,7 @@ public class Bomber extends MovingObject {
             bomb.render(gc);
         }
     }
+
     @Override
     public void update() {
         collide();

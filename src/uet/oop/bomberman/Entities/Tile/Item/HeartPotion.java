@@ -6,15 +6,15 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
 
 
-public class Detonator extends Item {
+public class HeartPotion extends Item {
     private boolean activated = false;
 
-    public Detonator(int xUnit, int yUnit, Image img) {
+    public HeartPotion(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
 
     }
 
-    public Detonator(int xUnit, int yUnit, Image img, int timeActivated, boolean activated) {
+    public HeartPotion(int xUnit, int yUnit, Image img, int timeActivated, boolean activated) {
         super(xUnit, yUnit, img, timeActivated, activated);
     }
 

@@ -115,7 +115,7 @@ public class Level {
                         break;
                     case 'd':
                         Brick objectd = new Brick(j, i, Sprite.brick.getFxImage());
-                        Detonator objectBelow8 = new Detonator(j, i, Sprite.powerup_detonator.getFxImage());
+                        HeartPotion objectBelow8 = new HeartPotion(j, i, Sprite.powerup_detonator.getFxImage());
                         boardGame.addEntity(objectd);
                         objectd.setEntityBelow(objectBelow8);
                         break;

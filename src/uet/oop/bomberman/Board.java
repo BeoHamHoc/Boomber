@@ -19,7 +19,7 @@ public class Board {
     public static final int MAX_LEVEL = 3;
     public static char[][] map = new char[HEIGHT][WIDTH];
 
-    public static int bombCount =1;
+    public static int bombCount = 1;
     public static int bombRadius = 1;
     public static int score = 0;
     public static boolean flamePass = false;
@@ -185,7 +185,7 @@ public class Board {
             int left = scanner.nextInt();
             scorePrevious = scanner.nextInt();
             if (left == 0) {
-                left = 3;
+                left = player.DEFAULT_HEALTH;
                 level = 1;
                 Board.scorePrevious = 0;
             }
@@ -196,12 +196,11 @@ public class Board {
         }
     }
 
-    /**
-     * Kiểm tra nhận vật còn sống hay không
-     */
-
-    public boolean  getIsDie() {
-        return getPlayer().isDie();
-    }
+//    /**
+//     * Kiểm tra nhận vật còn sống hay không
+//     */
+//    public boolean getIsDie() {
+//        return getPlayer().isDie();
+//    }
 
 }
