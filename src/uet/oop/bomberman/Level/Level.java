@@ -8,9 +8,10 @@ import uet.oop.bomberman.Entities.Tile.Brick;
 import uet.oop.bomberman.Entities.Tile.Grass;
 import uet.oop.bomberman.Entities.Tile.Wall;
 import uet.oop.bomberman.Entities.Character.Enemy.Balloon;
-import uet.oop.bomberman.Entities.Character.Enemy.Doll;
+import uet.oop.bomberman.Entities.Character.Enemy.Minvo;
 import uet.oop.bomberman.Entities.Character.Enemy.Kondoria;
 import uet.oop.bomberman.Entities.Character.Enemy.Oneal;
+import uet.oop.bomberman.Entities.Character.Enemy.Doll;
 import uet.oop.bomberman.Graphics.Sprite;
 
 import java.io.File;
@@ -88,6 +89,11 @@ public class Level {
                         Board.map[i][j] = ' ';
                         Kondoria kondoria = new Kondoria(j, i, Sprite.kondoria_right1.getFxImage(), Board.speedOfEnemy);
                         boardGame.addEnemy(kondoria);
+                        break;
+                    case '5':
+                        Board.map[i][j] = ' ';
+                        Minvo minvo = new Minvo(j, i, Sprite.minvo_right1.getFxImage(), Board.speedOfEnemy);
+                        boardGame.addEnemy(minvo);
                         break;
                     case 'x':
                         Brick objectx = new Brick(j, i, Sprite.brick.getFxImage());

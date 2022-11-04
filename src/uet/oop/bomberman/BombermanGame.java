@@ -77,7 +77,8 @@ public class BombermanGame extends Application {
                         update();
                         board.render();
                         board.update();
-                        if(keyBoard.resume) {
+
+                        if(keyBoard.stop) {
                             try {
                                 BombermanGame.this.stop();
                             } catch (Exception e) {
@@ -85,7 +86,7 @@ public class BombermanGame extends Application {
                             }
                         }
                         if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
-                            finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
+                            finalStage.setScene(gameFinalScene(Board.getPlayer().isDie()));
                         }
                         if (Board.getPlayer().isWin()) {
                             Board.scorePrevious = 0;
@@ -127,7 +128,7 @@ public class BombermanGame extends Application {
                             board.render();
                             board.update();
                             if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
-                                finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
+                                finalStage.setScene(gameFinalScene(Board.getPlayer().isDie()));
                             }
                             if (Board.getPlayer().isWin()) {
                                 Board.scorePrevious = 0;
@@ -285,8 +286,15 @@ public class BombermanGame extends Application {
     }
 
     private void createReplayButton() {
-        replayButton = new Button();
-        replayButton.setText("REPLAY");
+        InputStream input = getClass().getResourceAsStream("/button/replay.jpg");
+
+        javafx.scene.image.Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+        replayButton = new Button("", imageView);
+        replayButton.setStyle("-fx-background-color: rgba(0,0,0,0); ");
+
+        replayButton.setLayoutX(430);
+        replayButton.setLayoutY(350);
     }
 
     private void createBackGround() {
@@ -301,7 +309,6 @@ public class BombermanGame extends Application {
         Text textOver;
         if(!check) {
             textOver = new Text(250, 240, "Game over!");
-            createReplayButton();
         }
         else
             textOver = new Text(250, 240, "Win");

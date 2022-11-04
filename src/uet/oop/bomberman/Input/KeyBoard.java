@@ -1,5 +1,6 @@
 package uet.oop.bomberman.Input;
 
+import javafx.application.Application;
 import javafx.scene.Scene;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Graphics.Sprite;

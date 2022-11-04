@@ -2,6 +2,7 @@ package uet.oop.bomberman;
 
 import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
+import uet.oop.bomberman.Entities.Character.Enemy.Minvo;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Graphics.Sprite;
 import uet.oop.bomberman.Level.Level;
@@ -34,6 +35,7 @@ public class Board {
     private static List<Entity> stillObjects = new ArrayList<>();
     private static List<Enemy> enemies = new ArrayList<>();
     private static Bomber player;
+    private static Minvo minvo;
     private Level gameLevel;
     private int level;
 
@@ -50,6 +52,7 @@ public class Board {
         return player;
     }
 
+    public static Minvo getMinvo() {return minvo;}
     /**
      * khởi tạo level
      */
