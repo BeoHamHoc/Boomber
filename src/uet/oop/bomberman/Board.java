@@ -70,6 +70,7 @@ public class Board {
         flamePass = false;
         bombPass = false;
         wallPass = false;
+        speedOfPlayer = 0.0035;
         this.level = level;
     }
 
