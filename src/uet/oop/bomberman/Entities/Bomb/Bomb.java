@@ -54,8 +54,6 @@ public class Bomb extends Entity {
     protected void explosion() {
 
         exploded = true;
-//        explosions = new DirectionExplosion[4];
-
         for (int i = 0; i < explosions.length; i++) {
             explosions[i] = new DirectionExplosion((int) x, (int) y, i);
         }
