@@ -135,15 +135,6 @@ public class Bomber extends MovingObject {
                 CountDownBomb();
                 System.out.println(speed);
             }
-
-//        if (!Board.getMinvo().minvoCheckAlive() && countDownBomb <= 0)
-//            if (!(BombermanGame.board.getEntity(xBomb(), yBomb()) instanceof Brick)) {
-//                Bomb bomb = new Bomb(Board.getMinvo().xBomb(), Board.getMinvo().yBomb(), false, Sprite.bomb.getFxImage());
-//                addBomb(bomb);
-//                countDownBomb = 400-((speed-0.0035)*1000*50);
-//                CountDownBomb();
-//                System.out.println(speed);
-//            }
     }
 
     public double CountDownBomb() {

@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 public class Bomb extends Entity {
 
-    protected double timeToExplode =1800;
+    protected double timeToExplode = 1800;
     protected int timeAfter = 80;
     protected boolean exploded = false;
     protected DirectionExplosion[] explosions = new DirectionExplosion[5];

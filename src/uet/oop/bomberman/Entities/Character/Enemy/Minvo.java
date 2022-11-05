@@ -6,6 +6,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Graphics.Sprite;
 
 public class Minvo extends Enemy {
+
     public Minvo(int x, int y, Image img, double speed) {
         super(x, y, img, speed);
         setFrameRight();
@@ -50,6 +51,9 @@ public class Minvo extends Enemy {
         return AI.chooseDirectionRandom(this, currentDirection);
     }
 
+    public boolean minvoCheckAlive() {
+        return alive;
+    }
     @Override
     public void enemyDie() {
         if (time < 10) {
@@ -65,7 +69,6 @@ public class Minvo extends Enemy {
             this.setImg(imgFrameDie[3]);
             Board.score += 100;
             BombermanGame.board.removeEnemyAt(this.x, this.y);
-            this.alive = false;
         }
     }
 
