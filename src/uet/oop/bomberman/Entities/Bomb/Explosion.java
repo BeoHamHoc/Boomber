@@ -35,6 +35,9 @@ public class Explosion extends Entity {
             case 3:
                 img = last ? Sprite.explosion_horizontal_left_last2.getFxImage() : Sprite.explosion_horizontal2.getFxImage();
                 break;
+            case 4:
+                img = Sprite.bomb_exploded2.getFxImage();
+                break;
         }
     }
 
@@ -66,6 +69,9 @@ public class Explosion extends Entity {
                 case 3:
                     img = last ? Sprite.explosion_horizontal_left_last1.getFxImage() : Sprite.explosion_horizontal1.getFxImage();
                     break;
+                case 4:
+                    img = Sprite.bomb_exploded1.getFxImage();
+                    break;
             }
         }
         if (time <= 10) {
@@ -81,6 +87,8 @@ public class Explosion extends Entity {
                     break;
                 case 3:
                     img = last ? Sprite.explosion_horizontal_left_last.getFxImage() : Sprite.explosion_horizontal.getFxImage();
+                    break;
+                case 4:
                     break;
             }
         }

@@ -11,8 +11,8 @@ public class DirectionExplosion extends Entity {
 
     protected int direction;
     protected Explosion[] explosion;
-    private boolean remove = false;
     boolean last;
+    private boolean remove = false;
 
     public DirectionExplosion(double x, double y, int direction) {
         this.direction = direction;
@@ -73,6 +73,8 @@ public class DirectionExplosion extends Entity {
                 case 3:
                     x1--;
                     break;
+                case 4:
+                    break;
             }
             explosion[i] = new Explosion(x1, y1, direction, last);
         }
@@ -94,6 +96,6 @@ public class DirectionExplosion extends Entity {
     @Override
     public void render(GraphicsContext gc) {
 
-        IntStream.range(0, explosion.length).filter(i -> !remove).forEach(i -> explosion[i].render(gc));
+        IntStream.range(0, explosion.length).filter(i    -> !remove).forEach(i -> explosion[i].render(gc));
     }
 }

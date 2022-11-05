@@ -16,7 +16,7 @@ public class Bomb extends Entity {
     protected double timeToExplode =1800;
     protected int timeAfter = 80;
     protected boolean exploded = false;
-    protected DirectionExplosion[] explosions = new DirectionExplosion[4];
+    protected DirectionExplosion[] explosions = new DirectionExplosion[5];
     private int animate = 0;
 
 
