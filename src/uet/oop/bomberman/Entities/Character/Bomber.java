@@ -496,7 +496,7 @@ public class Bomber extends MovingObj {
                         if (BombermanGame.board.getLevel() == Board.MAX_LEVEL) {
                             win = true;
                         } else {
-                            //Sound.play("CRYST_UP");
+                            Sound.play("CRYST_UP");
                             Board.countDownTime = 181 * 60;
                             int newLevel = BombermanGame.board.getLevel() + 1;
                             Board.scorePrevious += Board.score;
@@ -518,7 +518,7 @@ public class Bomber extends MovingObj {
                 if (!obj.isActivated()) {
                     if (maskPlayer1.size() > 0) {
                         obj.setActivated(true);
-                        //Sound.play("Item");
+                        Sound.play("Item");
                     }
                 }
             }
@@ -565,19 +565,19 @@ public class Bomber extends MovingObj {
             placeBomb();
             CountDownBomb();
         } else {
-            if (time < 10) {
+            if (time < 1) {
                 this.setImg(imgFrameDie[0]);
                 time++;
             }
-            else if (time < 20) {
+            else if (time < 2) {
                 this.setImg(imgFrameDie[1]);
                 time++;
             }
-            else if (time < 30) {
+            else if (time < 3) {
                 this.setImg(imgFrameDie[2]);
                 time++;
             }
-            else if (time < 40) {
+            else if (time < 4) {
                 this.setImg(null);
                 time++;
             }
@@ -586,7 +586,7 @@ public class Bomber extends MovingObj {
                     die = true;
                     BombermanGame.board.removeEntityAt(this.x, this.y);
                     try {
-                        TimeUnit.SECONDS.sleep(1);
+                        TimeUnit.SECONDS.sleep(0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

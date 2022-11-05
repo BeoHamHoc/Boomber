@@ -76,9 +76,6 @@ public class BombermanGame extends Application {
                         }
                         if (Board.getPlayer().isWin()) {
                             Board.scorePrevious = 0;
-                            BombermanGame.board.setLevel(1);
-                            Board.getPlayer().setHealth(3);
-                            Board.getPlayer().updateStatus();
                             finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
 
                         }
