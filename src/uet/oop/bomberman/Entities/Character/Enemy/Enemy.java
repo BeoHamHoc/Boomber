@@ -1,9 +1,11 @@
 package uet.oop.bomberman.Entities.Character.Enemy;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Entities.Character.AI.AI;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Entities.Character.MovingObj;
 import uet.oop.bomberman.Entities.Entity;
+import uet.oop.bomberman.Graphics.Sprite;
 
 import java.util.HashSet;
 
@@ -15,8 +17,6 @@ import java.util.HashSet;
 // Kondoria = 4MovingObj {
 
 public abstract class Enemy extends MovingObj {
-    protected Image[] imgFrameRight;
-    protected Image[] imgFrameLeft;
     protected Image[] imgFrameDie;
     protected int currentDirection = 1;
     protected int time = 0;
@@ -28,11 +28,7 @@ public abstract class Enemy extends MovingObj {
     }
 
     public abstract int chooseDirection();
-
-    public abstract void enemyDie();
-
     public void checkToMapMoveRight() {
-        double widthFrameNow = 32;
 
         double distance = 1;
         int xPos = (int) (x + speed);
@@ -94,7 +90,6 @@ public abstract class Enemy extends MovingObj {
     }
 
     public void checkToMapMoveUp() {
-        double widthFrameNow = 32;
 
         double distance = 1;
         int xPos = (int) (x);
@@ -124,7 +119,6 @@ public abstract class Enemy extends MovingObj {
     }
 
     public void checkToMapMoveDown() {
-        double widthFrameNow = 32;
         double distance = 1;
         int xPos = (int) x;
         int xPos2 = (int) (x + distance);
@@ -150,43 +144,17 @@ public abstract class Enemy extends MovingObj {
             }
         }
     }
-
-    @Override
-    public void moveLeft() {
-        if (left < animate) {
-            this.setImg(imgFrameLeft[0]);
-            left++;
-        } else if (left < 2 * animate) {
-            this.setImg(imgFrameLeft[1]);
-            left++;
-        } else {
-            this.setImg(imgFrameLeft[2]);
-            left++;
-            if (left == 3 * animate) {
-                left = 0;
-            }
-        }
-        this.x -= speed;
+    protected void setFrameDie() {
+        Image die0 = Sprite.balloom_dead.getFxImage();
+        Image die1 = Sprite.mob_dead1.getFxImage();
+        Image die2 = Sprite.mob_dead2.getFxImage();
+        Image die3 = Sprite.mob_dead3.getFxImage();
+        this.imgFrameDie = new Image[4];
+        imgFrameDie[0] = die0;
+        imgFrameDie[1] = die1;
+        imgFrameDie[2] = die2;
+        imgFrameDie[3] = die3;
     }
-
-    @Override
-    public void moveRight() {
-        if (right < animate) {
-            this.setImg(imgFrameRight[0]);
-            right++;
-        } else if (right < 2 * animate) {
-            this.setImg(imgFrameRight[1]);
-            right++;
-        } else {
-            this.setImg(imgFrameRight[2]);
-            right++;
-            if (right == 3 * animate) {
-                right = 0;
-            }
-        }
-        this.x += speed;
-    }
-
     @Override
     public void moveUp() {
         if (up < animate) {
@@ -259,6 +227,22 @@ public abstract class Enemy extends MovingObj {
             movingPlayer();
         } else {
             enemyDie();
+        }
+    }
+    public void enemyDie() {
+        if (time < 10) {
+            this.setImg(imgFrameDie[0]);
+            time++;
+        } else if (time < 20) {
+            this.setImg(imgFrameDie[1]);
+            time++;
+        } else if (time < 30) {
+            this.setImg(imgFrameDie[2]);
+            time++;
+        } else if (time < 40) {
+            this.setImg(imgFrameDie[3]);
+            Board.score += 100;
+            BombermanGame.board.removeEnemyAt(this.x, this.y);
         }
     }
 

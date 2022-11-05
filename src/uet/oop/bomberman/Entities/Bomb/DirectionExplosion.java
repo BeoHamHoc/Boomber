@@ -86,8 +86,6 @@ public class DirectionExplosion extends Entity {
     }
 
     public void update(int time) {
-//        for (Explosion value : explosion) {
-//            value.update(direction, time);
         for (Explosion value : explosion) {
             value.update(direction, time);
         }
@@ -96,6 +94,6 @@ public class DirectionExplosion extends Entity {
     @Override
     public void render(GraphicsContext gc) {
 
-        IntStream.range(0, explosion.length).filter(i    -> !remove).forEach(i -> explosion[i].render(gc));
+        IntStream.range(0, explosion.length).filter(i -> !remove).forEach(i -> explosion[i].render(gc));
     }
 }

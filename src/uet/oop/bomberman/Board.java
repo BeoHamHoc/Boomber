@@ -196,12 +196,4 @@ public class Board {
         }
     }
 
-    /**
-     * Kiểm tra nhận vật còn sống hay không
-     */
-
-    public boolean  getIsDie() {
-        return getPlayer().isDie();
-    }
-
 }

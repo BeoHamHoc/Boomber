@@ -28,18 +28,6 @@ public class Brick extends Entity {
         this.entityBelow = entityBelow;
     }
 
-    public int getTimeRemove() {
-        return timeRemove;
-    }
-
-    public void setTimeRemove(int timeRemove) {
-        this.timeRemove = timeRemove;
-    }
-
-    public Item getEntityBelow() {
-        return entityBelow;
-    }
-
     public void setEntityBelow(Item entityBelow) {
         this.entityBelow = entityBelow;
     }
