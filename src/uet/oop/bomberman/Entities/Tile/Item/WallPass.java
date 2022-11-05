@@ -14,10 +14,6 @@ public class WallPass extends Item {
 
     }
 
-    public WallPass(int xUnit, int yUnit, Image img, int timeActivated, boolean activated) {
-        super(xUnit, yUnit, img, timeActivated, activated);
-    }
-
     public boolean isActivated() {
         return activated;
     }

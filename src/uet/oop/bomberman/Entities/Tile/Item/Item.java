@@ -15,14 +15,6 @@ public abstract class Item  extends Entity{
         this.activated = activated;
     }
 
-    public int getTimeActivated() {
-        return timeActivated;
-    }
-
-    public void setTimeActivated(int timeActivated) {
-        this.timeActivated = timeActivated;
-    }
-
     public boolean isActivated() {
         return activated;
     }
