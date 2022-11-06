@@ -1,6 +1,5 @@
 package uet.oop.bomberman;
-
-import com.sun.glass.ui.Window;
+import uet.oop.bomberman.Sound.Sound;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -19,12 +18,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.Graphics.Sprite;
 import uet.oop.bomberman.Input.KeyBoard;
 
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,8 +47,6 @@ public class BombermanGame extends Application {
     private Button continueButton;
     private Button startButton;
 
-    private Button replayButton;
-
     public void start(Stage stage) {
         createMenu();
         stage = menuStage;
@@ -77,22 +71,11 @@ public class BombermanGame extends Application {
                         update();
                         board.render();
                         board.update();
-
-                        if(keyBoard.stop) {
-                            try {
-                                BombermanGame.this.stop();
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
                         if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
-                            finalStage.setScene(gameFinalScene(Board.getPlayer().isDie()));
+                            finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
                         }
                         if (Board.getPlayer().isWin()) {
                             Board.scorePrevious = 0;
-                            BombermanGame.board.setLevel(Board.MAX_LEVEL);
-                            Board.getPlayer().setHealth(Board.getPlayer().DEFAULT_HEALTH);
-                            Board.getPlayer().updateStatus();
                             finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
 
                         }
@@ -106,6 +89,7 @@ public class BombermanGame extends Application {
                 board.countDown();
             }
         });
+
 
         continueButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -128,12 +112,12 @@ public class BombermanGame extends Application {
                             board.render();
                             board.update();
                             if (Board.getPlayer().isDie() || Board.countDownTime < 0) {
-                                finalStage.setScene(gameFinalScene(Board.getPlayer().isDie()));
+                                finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
                             }
                             if (Board.getPlayer().isWin()) {
                                 Board.scorePrevious = 0;
-                                BombermanGame.board.setLevel(Board.MAX_LEVEL);
-                                Board.getPlayer().setHealth(Board.getPlayer().DEFAULT_HEALTH);
+                                BombermanGame.board.setLevel(1);
+                                Board.getPlayer().setHealth(3);
                                 Board.getPlayer().updateStatus();
                                 finalStage.setScene(gameFinalScene(Board.getPlayer().isWin()));
                             }
@@ -162,19 +146,11 @@ public class BombermanGame extends Application {
         board = new Board();
         keyBoard = new KeyBoard();
         Board.score = 0;
-        Board.getPlayer().setHealth(Board.getPlayer().DEFAULT_HEALTH);
+        Board.getPlayer().setHealth(3);
         board.setLevel(1);
         board.getGameLevel().createMapLevel(1);
         System.out.println("dang tao game");
 
-    }
-
-    public void initReplayGame() throws FileNotFoundException {
-        board = new Board();
-        keyBoard = new KeyBoard();
-        Board.score = 0;
-        Board.getPlayer().setHealth(Board.getPlayer().DEFAULT_HEALTH);
-        board.getGameLevel().createMapLevel(board.getLevel());
     }
 
     public void createTextScene() {
@@ -227,6 +203,7 @@ public class BombermanGame extends Application {
     public void initializeStage() {
         canvas = new Canvas(Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2));
         gc = canvas.getGraphicsContext2D();
+
 
         Canvas canvasForPlayer = new Canvas(Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2));
         gcForPlayer = canvasForPlayer.getGraphicsContext2D();
@@ -285,18 +262,6 @@ public class BombermanGame extends Application {
         startButton.setLayoutY(350);
     }
 
-    private void createReplayButton() {
-        InputStream input = getClass().getResourceAsStream("/button/replay.jpg");
-
-        javafx.scene.image.Image image = new Image(input);
-        ImageView imageView = new ImageView(image);
-        replayButton = new Button("", imageView);
-        replayButton.setStyle("-fx-background-color: rgba(0,0,0,0); ");
-
-        replayButton.setLayoutX(430);
-        replayButton.setLayoutY(350);
-    }
-
     private void createBackGround() {
         Image back = new Image("/background/Background.png", MENU_WIDTH, MENU_HEIGHT, false, true);
         BackgroundImage backMenu = new BackgroundImage(back, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
@@ -304,19 +269,16 @@ public class BombermanGame extends Application {
     }
 
     private Scene gameFinalScene(boolean check) {
-
         Group gameRoot = new Group();
         Text textOver;
-        if(!check) {
+        if(!check)
             textOver = new Text(250, 240, "Game over!");
-        }
         else
             textOver = new Text(250, 240, "Win");
         textOver.setFont(Font.font("Arial", FontWeight.BOLD, 80));
         textOver.setFill(Color.WHITE);
 
         gameRoot.getChildren().add(textOver);
-
-        return new Scene(gameRoot, Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2));
+        return new Scene(gameRoot, Sprite.SCALED_SIZE * Board.WIDTH, Sprite.SCALED_SIZE * (Board.HEIGHT + 2), Color.BLACK);
     }
 }

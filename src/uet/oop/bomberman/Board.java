@@ -2,11 +2,9 @@ package uet.oop.bomberman;
 
 import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
-import uet.oop.bomberman.Entities.Character.Enemy.Minvo;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Graphics.Sprite;
 import uet.oop.bomberman.Level.Level;
-
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +18,7 @@ public class Board {
     public static final int MAX_LEVEL = 3;
     public static char[][] map = new char[HEIGHT][WIDTH];
 
-    public static int bombCount = 1;
+    public static int bombCount =1;
     public static int bombRadius = 1;
     public static int score = 0;
     public static boolean flamePass = false;
@@ -35,7 +33,7 @@ public class Board {
     private static List<Entity> stillObjects = new ArrayList<>();
     private static List<Enemy> enemies = new ArrayList<>();
     private static Bomber player;
-    private static Minvo minvo;
+
     private Level gameLevel;
     private int level;
 
@@ -52,7 +50,6 @@ public class Board {
         return player;
     }
 
-    public static Minvo getMinvo() {return minvo;}
     /**
      * khởi tạo level
      */
@@ -70,7 +67,6 @@ public class Board {
         flamePass = false;
         bombPass = false;
         wallPass = false;
-        speedOfPlayer = 0.0035;
         this.level = level;
     }
 
@@ -189,7 +185,7 @@ public class Board {
             int left = scanner.nextInt();
             scorePrevious = scanner.nextInt();
             if (left == 0) {
-                left = player.DEFAULT_HEALTH;
+                left = 3;
                 level = 1;
                 Board.scorePrevious = 0;
             }
@@ -199,12 +195,5 @@ public class Board {
             e.printStackTrace();
         }
     }
-
-//    /**
-//     * Kiểm tra nhận vật còn sống hay không
-//     */
-//    public boolean getIsDie() {
-//        return getPlayer().isDie();
-//    }
 
 }

@@ -14,10 +14,6 @@ public class FlamePass extends Item {
 
     }
 
-    public FlamePass(int xUnit, int yUnit, Image img, int timeActive, boolean activated) {
-        super(xUnit, yUnit, img, timeActive, activated);
-    }
-
     public boolean isActivated() {
         return activated;
     }

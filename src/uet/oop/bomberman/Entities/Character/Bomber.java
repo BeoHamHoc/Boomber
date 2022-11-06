@@ -20,27 +20,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Bomber extends MovingObject {
+public class Bomber extends MovingObj {
 
     private final int animate = 4;
-    Image[] imgFrameRight;
-    Image[] imgFrameLeft;
     Image[] imgFrameUp;
     Image[] imgFrameDown;
     Image[] imgFrameDie;
+    double countDownBomb = 0;
     private int left = 0;
     private int right = 0;
     private int up = 0;
     private int down = 0;
     private int time = 0; // time to die
     private int health;
-    public int DEFAULT_HEALTH = 3;
     private boolean win = false;
     private boolean die = false;
     private boolean noDie = false;
     private int timeNoDie = 5 * 60;
     private List<Bomb> bombs = new ArrayList<>();
-    private double countDownBomb = 0;
 
 
     public Bomber(int x, int y, Image img, double speed) {
@@ -51,7 +48,6 @@ public class Bomber extends MovingObject {
         setFrameDown();
         setFrameDie();
     }
-
 
 
     public void setAlive(boolean alive) {
@@ -122,7 +118,7 @@ public class Bomber extends MovingObject {
         }
         if (check) {
             bombs.add(bomb);
-            Sound.play("BOM_SET");
+            //Sound.play("BOM_SET");
         }
     }
 
@@ -131,15 +127,17 @@ public class Bomber extends MovingObject {
             if (!(BombermanGame.board.getEntity(xBomb(), yBomb()) instanceof Brick)) {
                 Bomb bomb = new Bomb(xBomb(), yBomb(), false, Sprite.bomb.getFxImage());
                 addBomb(bomb);
-                countDownBomb = 400-((speed-0.0035)*1000*50);
+                countDownBomb = 400 - ((speed - 0.0035) * 1000 * 50);
                 CountDownBomb();
                 System.out.println(speed);
             }
     }
 
-    public double CountDownBomb() {
-        return countDownBomb--;
+    public void CountDownBomb() {
+        countDownBomb--;
+
     }
+
 
     public void removeBombAt(double x, double y) {
         for (int i = 0; i < bombs.size(); i++) {
@@ -152,41 +150,6 @@ public class Bomber extends MovingObject {
         }
     }
 
-    @Override
-    public void moveLeft() {
-        if (left < animate) {
-            this.setImg(imgFrameLeft[0]);
-            left++;
-        } else if (left < 2 * animate) {
-            this.setImg(imgFrameLeft[1]);
-            left++;
-        } else {
-            this.setImg(imgFrameLeft[2]);
-            left++;
-            if (left == 3 * animate) {
-                left = 0;
-            }
-        }
-        this.x -= speed;
-    }
-
-    @Override
-    public void moveRight() {
-        if (right < animate) {
-            this.setImg(imgFrameRight[0]);
-            right++;
-        } else if (right < 2 * animate) {
-            this.setImg(imgFrameRight[1]);
-            right++;
-        } else {
-            this.setImg(imgFrameRight[2]);
-            right++;
-            if (right == 3 * animate) {
-                right = 0;
-            }
-        }
-        this.x += speed;
-    }
 
     @Override
     public void moveUp() {
@@ -438,13 +401,13 @@ public class Bomber extends MovingObject {
         if (alive && !noDie) {
             HashSet<String> maskPlayer1 = getMask(this);
             HashSet<String> maskPlayer2 = getMask(obj);
-            int size = maskPlayer2.size();
             maskPlayer1.retainAll(maskPlayer2);
             if (maskPlayer1.size() > 0) {
                 health--;
                 updateStatus();
                 if (health == 0) {
                     setAlive(false);
+
                     Sound.play("endgame3");
                 } else {
                     Sound.play("AA126_11");
@@ -453,7 +416,6 @@ public class Bomber extends MovingObject {
             }
         }
     }
-
 
 
     public int getHealth() {
@@ -479,9 +441,11 @@ public class Bomber extends MovingObject {
     public boolean isDie() {
         return die;
     }
+
     public boolean isWin() {
         return win;
     }
+
     public void collideWithItem(Item obj) {
         if (alive) {
             HashSet<String> maskPlayer1 = getMask(this);
@@ -511,8 +475,7 @@ public class Bomber extends MovingObject {
 
                     }
                 }
-            }
-            else {
+            } else {
                 if (!obj.isActivated()) {
                     if (maskPlayer1.size() > 0) {
                         obj.setActivated(true);
@@ -566,28 +529,24 @@ public class Bomber extends MovingObject {
             placeBomb();
             CountDownBomb();
         } else {
-            if (time < 10) {
+            if (time < 1) {
                 this.setImg(imgFrameDie[0]);
                 time++;
-            }
-            else if (time < 20) {
+            } else if (time < 2) {
                 this.setImg(imgFrameDie[1]);
                 time++;
-            }
-            else if (time < 30) {
+            } else if (time < 3) {
                 this.setImg(imgFrameDie[2]);
                 time++;
-            }
-            else if (time < 40) {
+            } else if (time < 4) {
                 this.setImg(null);
                 time++;
-            }
-            else {
+            } else {
                 if (health == 0) {
                     die = true;
                     BombermanGame.board.removeEntityAt(this.x, this.y);
                     try {
-                        TimeUnit.SECONDS.sleep(1);
+                        TimeUnit.SECONDS.sleep(0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -602,6 +561,7 @@ public class Bomber extends MovingObject {
             }
         }
     }
+
     public void updateWallFromBomb(Bomb bomb) {
         if (alive) {
             HashSet<String> maskBomb = getMask(bomb);

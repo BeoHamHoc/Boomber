@@ -5,12 +5,14 @@ import uet.oop.bomberman.Entities.Entity;
 
 public abstract class MovingObject extends Entity {
 
+    protected final int animate = 5;
+    protected Image[] imgFrameRight;
+    protected Image[] imgFrameLeft;
     protected double speed;
     protected int left = 0;
     protected int right = 0;
     protected int up = 0;
     protected int down = 0;
-    protected final int animate = 5;
     protected boolean alive = true;
 
     public MovingObject(int x, int y, Image img, double speed) {
@@ -27,17 +29,49 @@ public abstract class MovingObject extends Entity {
     public void setSpeed(double speed) {
         this.speed = speed;
     }
+
     @Override
     public void update() {
         movingPlayer();
     }
 
-    public abstract void moveRight();
-
-    public abstract void moveLeft();
-
     public abstract void moveUp();
 
     public abstract void moveDown();
+
+    public void moveLeft() {
+        if (left < animate) {
+            this.setImg(imgFrameLeft[0]);
+            left++;
+        } else if (left < 2 * animate) {
+            this.setImg(imgFrameLeft[1]);
+            left++;
+        } else {
+            this.setImg(imgFrameLeft[2]);
+            left++;
+            if (left == 3 * animate) {
+                left = 0;
+            }
+        }
+        this.x -= speed;
+    }
+
+
+    public void moveRight() {
+        if (right < animate) {
+            this.setImg(imgFrameRight[0]);
+            right++;
+        } else if (right < 2 * animate) {
+            this.setImg(imgFrameRight[1]);
+            right++;
+        } else {
+            this.setImg(imgFrameRight[2]);
+            right++;
+            if (right == 3 * animate) {
+                right = 0;
+            }
+        }
+        this.x += speed;
+    }
 
 }

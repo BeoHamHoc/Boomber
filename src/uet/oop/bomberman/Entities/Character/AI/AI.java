@@ -17,7 +17,24 @@ import java.util.Random;
 public class AI {
     int[] deltaX = {0, 1, 0, -1};
     int[] deltaY = {-1, 0, 1, 0};
+    double bomberX;
+    double bomberY;
+    double tempX ;
+    double tempY ;
+    double diffX ;
+    double diffY ;
+    double distance ;
     private Random random = new Random();
+
+    public void createInfo(Enemy enemy) {
+        bomberX = Board.getPlayer().getX();
+        bomberY = Board.getPlayer().getY();
+        tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
+        tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
+        diffX = bomberX - enemy.getX();
+        diffY = bomberY - enemy.getY();
+        distance = Math.sqrt(diffX * diffX + diffY * diffY);
+    }
 
     public int bestDirection(Enemy enemy, ArrayList<Integer> possibleDirections, int size) {
         double bomberX = Board.getPlayer().getX();
@@ -55,14 +72,7 @@ public class AI {
     }
 
     public int chooseDirectionMedium(Enemy enemy, int currentDirection) {
-        double bomberX = Board.getPlayer().getX();
-        double bomberY = Board.getPlayer().getY();
-        double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
-        double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
-        double diffX = bomberX - enemy.getX();
-        double diffY = bomberY - enemy.getY();
-
-        double distance = Math.sqrt(diffX * diffX + diffY * diffY);
+        createInfo(enemy);
 
         if (distance > 10) {
             enemy.setSpeed(Board.speedOfEnemy);
@@ -89,12 +99,7 @@ public class AI {
     }
 
     public int chooseDirectionMedium2(Bomber bomber, Enemy enemy, int currentDirection) {
-        double bomberX = Board.getPlayer().getX();
-        double bomberY = Board.getPlayer().getY();
-        double tempX = (double) Math.round(enemy.getX() * 1000) / 1000;
-        double tempY = (double) Math.round(enemy.getY() * 1000) / 1000;
-        double diffX = bomberX - enemy.getX();
-        double diffY = bomberY - enemy.getY();
+        createInfo(enemy);
 
         double distance = Math.sqrt(diffX * diffX + diffY * diffY);
 

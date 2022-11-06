@@ -33,9 +33,6 @@ public class Sound {
         }).start();
 
     }
-    public static void stop() {
-        myClip.stop();
-    }
 
     public static void loopInf(){
         if (myClip.isActive()){

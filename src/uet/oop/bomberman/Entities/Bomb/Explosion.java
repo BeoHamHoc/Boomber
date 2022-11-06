@@ -101,6 +101,5 @@ public class Explosion extends Entity {
 
     @Override
     public void update() {
-
     }
 }
