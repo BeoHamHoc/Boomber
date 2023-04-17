@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Bomber extends MovingObj {
+public class Bomber extends MovingObject {
 
     private final int animate = 4;
     Image[] imgFrameUp;

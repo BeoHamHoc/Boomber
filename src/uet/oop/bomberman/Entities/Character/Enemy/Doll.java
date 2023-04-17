@@ -35,7 +35,7 @@ public class Doll extends Enemy {
         imgFrameLeft[2] = left2;
     }
 
-    private void setFrameDie() {
+    public void setFrameDie() {
         Image die0 = Sprite.doll_dead.getFxImage();
         Image die1 = Sprite.mob_dead1.getFxImage();
         Image die2 = Sprite.mob_dead2.getFxImage();

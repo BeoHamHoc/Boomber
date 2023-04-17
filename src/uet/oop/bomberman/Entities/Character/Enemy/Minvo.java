@@ -34,7 +34,7 @@ public class Minvo extends Enemy {
         imgFrameLeft[2] = left2;
     }
 
-    private void setFrameDie() {
+    protected void setFrameDie() {
         Image die0 = Sprite.minvo_dead.getFxImage();
         Image die1 = Sprite.mob_dead1.getFxImage();
         Image die2 = Sprite.mob_dead2.getFxImage();
